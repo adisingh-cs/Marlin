@@ -147,6 +147,9 @@ def run_test_offline(test_case, repo_root):
 
 
 def main():
+    # Ensure stdout can handle all characters on any platform
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description="Run Marlin skill tests")
     parser.add_argument("--skill", help="Specific skill name to test")
     parser.add_argument("--all", action="store_true", help="Test all skills")
@@ -198,7 +201,7 @@ def main():
         skill_file = os.path.join(skills_root, skill_name, "SKILL.md")
 
         if not os.path.isfile(test_file):
-            print(f"  ✗ {skill_name}: test file not found")
+            print(f"  [FAIL] {skill_name}: test file not found")
             total_fail += 1
             continue
 
@@ -211,7 +214,7 @@ def main():
                 skill_content = f.read()
 
         print(f"\n  Testing: {skill_name} ({len(tests)} tests)")
-        print(f"  {'─' * 40}")
+        print(f"  {'-' * 40}")
 
         for test_case in tests:
             test_id = test_case.get("id", "unknown")
@@ -224,10 +227,10 @@ def main():
                     test_case, skill_content, client, repo_root
                 )
 
-            icon = "✓" if status == "PASS" else "✗"
+            icon = "[PASS]" if status == "PASS" else "[FAIL]"
             print(f"    {icon} {test_id}: {description}")
             if status == "FAIL":
-                print(f"      └─ {message}")
+                print(f"      -> {message}")
                 total_fail += 1
             else:
                 total_pass += 1

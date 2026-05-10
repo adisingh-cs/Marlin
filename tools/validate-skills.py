@@ -158,6 +158,10 @@ def validate_skill(skill_dir, skill_name, skills_root, tests_root):
 
 
 def main():
+    # Ensure stdout can handle all characters on any platform
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
     # Determine paths relative to script location
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     skills_root = os.path.join(repo_root, "skills")
@@ -200,15 +204,15 @@ def main():
     max_name_len = max(len(name) for name, _, _ in all_results)
 
     for skill_name, status, errors in all_results:
-        icon = "✓" if status == "PASS" else "✗"
+        icon = "[PASS]" if status == "PASS" else "[FAIL]"
         print(f"  {icon} {skill_name:<{max_name_len}}  {status}")
         if errors:
             for error in errors:
                 print(f"    └─ {error}")
 
-    print(f"\n{'─' * 50}")
+    print(f"\n{'=' * 50}")
     print(f"Total: {len(skill_dirs)} | Pass: {total_pass} | Fail: {total_fail}")
-    print(f"{'─' * 50}")
+    print(f"{'=' * 50}")
 
     sys.exit(1 if total_fail > 0 else 0)
 
