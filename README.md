@@ -1,279 +1,246 @@
+<!-- assets/logo.png -->
 <p align="center">
-  <img src="https://i.ibb.co/hRghHfj9/logo.png" alt="Marlin Logo" width="200"><br>
-  <strong>Marlin</strong><br>
-  <em>Swift input. Sharp output. Every token counts.</em>
+  <img src="https://i.ibb.co/hRghHfj9/logo.png" alt="Marlin" width="200"/>
 </p>
+
+<h1 align="center">Marlin</h1>
+<p align="center"><em>Swift input. Sharp output. Every token counts.</em></p>
 
 <p align="center">
   <a href="#install">Install</a> •
   <a href="#modes">Modes</a> •
-  <a href="#architecture">Architecture</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#v3-dsl">V3 DSL</a> •
   <a href="docs/roadmap.md">Roadmap</a> •
   <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="version"/>
+  <img src="https://img.shields.io/badge/license-MIT-green" alt="license"/>
+  <img src="https://img.shields.io/badge/skills-claude--code%20%7C%20cursor%20%7C%20antigravity%20%7C%2040%2B%20agents-purple" alt="platforms"/>
+</p>
+
 ---
 
-**Marlin** is an AI-native input prompt optimizer. It compresses what you send *to* the model — not what the model says back. Using structured schemas, key maps, and domain-aware compression, Marlin reduces input tokens by **28–66%** while improving prompt determinism and reducing hallucination.
+**Marlin** compresses what you send *to* the model — not what the model says back.
+It restructures verbose prompts into lean, schema-anchored representations.
+The model receives a cleaner, denser signal and returns sharper, more deterministic output.
 
-Marlin never changes what the model says. It changes what the model reads.
+Input tokens cost money. Verbose prompts waste context window. Marlin fixes the input side.
 
-## Why input compression?
-
-| Problem | Marlin's approach |
-|---------|------------------|
-| Verbose prompts waste tokens and money | Schema-based structural compression, not heuristic trimming |
-| Ambiguous input produces inconsistent output | Canonical fields force explicit intent |
-| Context windows fill up in long sessions | 50–66% input savings means 2–3× more room for everything else |
-| Input optimization is ignored by most tools | Marlin is purpose-built for the input side |
-
-> **Not an output compressor.** Tools like `caveman` compress model *responses*. Marlin compresses model *input*. They are independent and composable — stack them for maximum savings.
+---
 
 ## Install
 
-**One-liner install (via npx skills):**
+**One command. Works globally across all your projects.**
+
 ```bash
-npx skills add adisingh-cs/Marlin --skill marlin-compact -g -a claude-code
-npx skills add adisingh-cs/Marlin --skill marlin-compact -g -a cursor
-npx skills add adisingh-cs/Marlin --skill marlin-compact -g -a antigravity
-npx skills add adisingh-cs/Marlin --all -g
+npx skills add adisingh-cs/Marlin -g -a antigravity
 ```
 
-*Note: Replace marlin-compact with marlin-structured, marlin-dense, or marlin-domain depending on your preferred mode. Use --all to install all 11 skills at once.*
+Replace `-a antigravity` with your agent:
 
-### Claude Code
+| Agent | Command |
+|---|---|
+| Antigravity | `npx skills add adisingh-cs/Marlin -g -a antigravity` |
+| Claude Code | `npx skills add adisingh-cs/Marlin -g -a claude-code` |
+| Cursor | `npx skills add adisingh-cs/Marlin -g -a cursor` |
+| All agents | `npx skills add adisingh-cs/Marlin -g` |
 
-> 🚧 **One-liner install coming in V2** (npm package in progress)
->
-> ```bash
-> # Coming soon — V2
-> # claude mcp add marlin -- npx -y marlin-skills@latest
-> ```
-
-**Install now (manual):**
+**Manual install (any agent that supports SKILL.md):**
 ```bash
 git clone https://github.com/adisingh-cs/Marlin.git
-# Copy skills/marlin-{mode}/SKILL.md into your Claude Code skills folder
-# Or add the skills/ directory to your Claude Code config
+# Copy SKILL.md into your agent's skills folder
 ```
 
-### Cursor
+> 💡 One-liner installs for Gemini CLI, Codex, and OpenCode coming in V2.
 
-> 🚧 **One-liner install coming in V2** (npm package in progress)
->
-> ```bash
-> # Coming soon — V2
-> # npx skills add adisingh-cs/marlin -a cursor
-> ```
-
-**Install now (manual):**
-```bash
-git clone https://github.com/adisingh-cs/Marlin.git
-# Copy skills/marlin-{mode}/SKILL.md into .cursor/skills/
-```
-
-### Gemini CLI
-
-> 🚧 **One-liner install coming in V2** (npm package in progress)
->
-> ```bash
-> # Coming soon — V2
-> # gemini extensions install https://github.com/adisingh-cs/Marlin
-> ```
-
-**Install now (manual):**
-```bash
-git clone https://github.com/adisingh-cs/Marlin.git
-# Copy skills/marlin-{mode}/SKILL.md into your Gemini CLI skills folder
-```
-
-### Codex
-
-> 🚧 **One-liner install coming in V2** (npm package in progress)
->
-> ```bash
-> # Coming soon — V2
-> # npx skills add adisingh-cs/marlin -a codex
-> ```
-
-**Install now (manual):**
-```bash
-git clone https://github.com/adisingh-cs/Marlin.git
-# Copy skills/marlin-{mode}/SKILL.md into your Codex skills folder
-```
-
-### Antigravity
-
-**Works now:**
-```json
-{
-  "skills": ["github:adisingh-cs/Marlin"]
-}
-```
-
-Or via npx skills:
-```bash
-npx skills add adisingh-cs/Marlin -a antigravity
-```
-
-### Any other agent (manual install — works now)
-
-```bash
-git clone https://github.com/adisingh-cs/Marlin.git
-```
-Then copy the relevant `skills/marlin-{mode}/SKILL.md` file into your agent's skills directory.
-
-Choose the mode that fits your workflow:
-- `skills/marlin-structured/` — normalized schema output
-- `skills/marlin-compact/` — short keys + minified JSON
-- `skills/marlin-dense/` — maximum compression
-- `skills/marlin-domain/` — domain-specific schemas (web-api, data-pipeline, agent-task)
-
-> 💡 **V2 Roadmap:** The npm package (`marlin-skills`) and one-liner installs for all platforms are coming in V2 alongside deterministic offline compression. [See roadmap →](docs/roadmap.md)
+---
 
 ## Modes
 
-| Mode | Command | Reduction | Best for |
-|------|---------|-----------|----------|
-| **Structured** | `/marlin structured` | 20–35% | First-time users, readable output |
-| **Compact** | `/marlin compact` | 35–50% | API calls, agent pipelines |
-| **Dense** | `/marlin dense` | 50–70% | High-volume, cost-sensitive |
-| **Domain** | `/marlin domain --schema <name>` | 40–65% | Specialized workflows |
-| **DSL** | `/marlin dsl` | (conversion) | Storage, transport |
+Four modes. One command prefix. You pick the intensity.
 
-### Quick example
+| Command | Intensity | Token Reduction | Best For |
+|---|---|---|---|
+| `/marlin swift` | Light | ~20–35% | General prompts, first use |
+| `/marlin sharp` | Mid | ~35–50% | API calls, repeated workflows |
+| `/marlin strike` | Max | ~50–70% | High-volume, cost-sensitive |
+| `/marlin sonar` | Domain | ~40–65% | Web-API, data, agent tasks |
 
-**Input:**
-```text
-Build a REST API endpoint for user registration with email validation,
-password hashing, and JWT token generation. Use Express.js and MongoDB.
+---
+
+## Usage
+
+### /marlin swift — normalize and structure
+
+```
+/marlin swift
+
+I want to build a login endpoint that takes email and password,
+checks against the database, and returns a JWT token if valid.
+Only use PostgreSQL. Output as JSON.
 ```
 
-**Structured** (`/marlin structured`):
+Output:
 ```json
 {
-  "goal": "build REST API endpoint for user registration",
+  "goal": "build login endpoint",
   "action": "create",
   "inputs": ["email", "password"],
-  "domain": "web-api",
-  "constraints": ["email-validation", "password-hashing", "JWT-generation"],
-  "format": "json",
-  "examples": null
+  "domain": "authentication",
+  "constraints": ["PostgreSQL only"],
+  "format": "json"
 }
 ```
+> Original: ~38 tokens → Compressed: ~28 tokens → Saved: ~26%
 
-**Compact** (`/marlin compact`):
+---
+
+### /marlin sharp — compact JSON, short keys
+
+```
+/marlin sharp
+
+I want to build a login endpoint that takes email and password,
+checks against the database, and returns a JWT token if valid.
+Only use PostgreSQL. Output as JSON.
+```
+
+Output:
 ```json
-{"g":"build REST API for user registration","a":"create","i":["email","password"],"d":"web-api","c":["email-val","pw-hash","JWT-gen"],"f":"json"}
+{"g":"build login endpoint","a":"create","i":["email","password"],"d":"authentication","c":["PostgreSQL only"],"f":"json"}
+```
+> Original: ~38 tokens → Compressed: ~22 tokens → Saved: ~42%
+
+---
+
+### /marlin strike — maximum compression
+
+```
+/marlin strike
+
+I want to build a login endpoint that takes email and password,
+checks against the database, and returns a JWT token if valid.
+Only use PostgreSQL. Output as JSON.
 ```
 
-**Dense** (`/marlin dense`):
+Output:
 ```json
-{"g":"build REST API for user reg","a":"create","i":"email,password","d":"web-api","c":"email-val,pw-hash,JWT-gen","f":"json"}
+{"g":"build login ep","a":"create","i":"email,password","d":"auth","c":"PostgreSQL only","f":"json"}
+```
+> Original: ~38 tokens → Compressed: ~18 tokens → Saved: ~53%
+
+---
+
+### /marlin sonar — domain-aware compression
+
+```
+/marlin sonar --schema web-api
+
+Create a POST endpoint at /api/users/login that accepts email and
+password in the request body, validates with JWT, returns tokens.
+Requires Authorization header. Version 2.
 ```
 
-**Domain** (`/marlin domain --schema web-api`):
+Output:
 ```json
-{"m":"POST","ep":"/api/users","au":"jwt","mw":["validation","hashing"],"pl":["email","password"],"rf":"json"}
+{"mth":"POST","ep":"/api/users/login","au":"jwt","pl":["email","password"],"hd":["Authorization"],"rf":"json","v":"2"}
+```
+> Original: ~42 tokens → Compressed: ~21 tokens → Saved: ~50%
+
+Available schemas: `--schema web-api` · `--schema data-pipeline` · `--schema agent-task`
+
+---
+
+## Output Flags
+
+Append to any command:
+
+| Flag | Returns |
+|---|---|
+| `--prompt` | Compressed prompt only — ready to paste |
+| `--report` | Compressed + token savings report *(default)* |
+| `--diff` | Original vs compressed side by side |
+| `--all` | Everything |
+
+Example: `/marlin sharp --diff`
+
+---
+
+## V3 DSL
+
+For agent-to-agent passing and ultra-compact storage:
+
+```
+# Internal DSL (store/pass between agents)
+G:build login ep|A:create|I:email,password|D:auth|F:json
+
+# Bridge to JSON before sending to any LLM
+/marlin bridge G:build login ep|A:create|I:email,password|D:auth|F:json
 ```
 
-See [docs/modes.md](docs/modes.md) for complete mode documentation.
+Append `--dsl` to any mode command for DSL output.
 
-## Architecture
+---
 
-Marlin uses a pipeline architecture where skills chain together:
+## Quick Reference
 
-```text
-input → intent-parser → schema-normalizer → key-shortener → value-encoder → output-formatter
+```
+/marlin swift          Normalize + structure  (~20–35%)
+/marlin sharp          Compact + short keys   (~35–50%)
+/marlin strike         Maximum compression    (~50–70%)
+/marlin sonar          Domain schema          (~40–65%)
+
+--prompt   Compressed prompt only
+--report   Prompt + savings report (default)
+--diff     Side-by-side comparison
+--all      Everything
+--dsl      V3 internal DSL format
 ```
 
-Each skill performs one transformation. Schemas anchor the data contract at every stage. The output formatter is decoupled from compression logic.
+---
 
-See [docs/architecture.md](docs/architecture.md) for the full system diagram.
+## Works great with caveman
 
-## Skills
+Marlin compresses **input**. [caveman](https://github.com/JuliusBrussee/caveman)
+compresses **output**. Run both — save on both ends.
 
-Marlin ships with 11 core skills:
+---
 
-| Skill | Category | Purpose |
-|-------|----------|---------|
-| `marlin-structured` | compression | Entry point for structured mode |
-| `marlin-compact` | compression | Entry point for compact mode |
-| `marlin-dense` | compression | Entry point for dense mode |
-| `marlin-domain` | compression | Entry point for domain mode |
-| `intent-parser` | parsing | Extract goal, action, inputs from natural language |
-| `schema-normalizer` | schema | Enforce schema contracts and type coercion |
-| `key-shortener` | encoding | Replace verbose keys with abbreviations |
-| `value-encoder` | encoding | Abbreviate common technical terms |
-| `output-formatter` | formatting | Format output as prompt, report, diff, or all |
-| `token-estimator` | estimation | Estimate token count for input/output |
-| `dsl-bridge` | bridge | Convert between V3 DSL and external JSON |
+## Benchmarks
 
-See [CATALOG.md](CATALOG.md) for the auto-generated skill catalog.
+> 🚧 Benchmark results coming in V1.1 — harness is ready.
+> Run it yourself: `cd benchmarks && python run.py` (requires `ANTHROPIC_API_KEY`)
 
-## Domains
+---
 
-Three domain schemas ship with V1:
+## Roadmap
 
-| Domain | Schema | Key map | Use case |
-|--------|--------|---------|----------|
-| `web-api` | HTTP methods, endpoints, auth | `web-api-keymap.json` | REST/GraphQL APIs |
-| `data-pipeline` | Source, transform, sink, schedule | `data-pipeline-keymap.json` | ETL, data processing |
-| `agent-task` | Objective, tools, handoff, priority | `agent-task-keymap.json` | AI agent workflows |
+- **V1 (now):** Single SKILL.md, four modes, npx install, V3 DSL
+- **V2:** npm package + REST API — deterministic compression, no LLM needed
+- **V3:** Multi-agent pipeline support, domain schema expansion
 
-See [docs/schemas.md](docs/schemas.md) for field-level schema documentation.
+[Full roadmap →](docs/roadmap.md)
 
-## Benchmark results
-
-> 🚧 **Benchmark results coming soon.**
->
-> We have built the harness (`benchmarks/run.py`). Real-world baseline results will be published here soon.
-> See [benchmarks/README.md](benchmarks/README.md) for our methodology.
-
-Run benchmarks yourself:
-```bash
-export ANTHROPIC_API_KEY=your-key
-python benchmarks/run.py
-```
-
-## Documentation
-
-| Document | Description |
-|----------|-------------|
-| [Architecture](docs/architecture.md) | System design, pipeline diagrams, skill dependencies |
-| [Modes](docs/modes.md) | Complete guide to all compression modes |
-| [Schemas](docs/schemas.md) | JSON Schema reference for all schemas |
-| [Key Maps](docs/key-maps.md) | Key abbreviation tables and rules |
-| [V3 DSL Format](docs/v3-dsl-format.md) | Internal DSL specification |
-| [Skill Anatomy](docs/skill-anatomy.md) | How to read and write SKILL.md files |
-| [Why Input Matters](docs/why-input-matters.md) | The case for input-side optimization |
-| [Roadmap](docs/roadmap.md) | V1, V2, V3 plans |
-| [Contributing Skills](docs/contributing-skills.md) | How to design and submit new skills |
-
-## Tools
-
-```bash
-# Validate all skills
-python tools/validate-skills.py
-
-# Generate catalog
-python tools/generate-catalog.py
-
-# Query skill index
-python tools/build-index.py --phase v1
-
-# Run tests (offline)
-python tools/test-skill.py --all --offline
-
-# Run tests (with API)
-export ANTHROPIC_API_KEY=your-key
-python tools/test-skill.py --all
-```
+---
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines and [docs/contributing-skills.md](docs/contributing-skills.md) for skill-specific guidance.
+Contributions welcome — new domain schemas, key maps, examples,
+benchmark results. Read [CONTRIBUTING.md](CONTRIBUTING.md) first.
 
-## License
+---
 
-[MIT](LICENSE) — use freely, attribution appreciated ([ATTRIBUTION.md](ATTRIBUTION.md)).
+## Attribution
+
+MIT License. Free to use, fork, and build on.
+If Marlin saves you tokens, a ⭐ or a mention helps others find it.
+[ATTRIBUTION.md](ATTRIBUTION.md)
+
+---
+
+<p align="center">
+  Built by <a href="https://github.com/adisingh-cs">@adisingh-cs</a> — Aditya Singh
+</p>
