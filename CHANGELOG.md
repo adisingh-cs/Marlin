@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-05-10
+
+### Changed
+- Consolidated 11 internal skill files into single root SKILL.md
+- Renamed modes to swift / sharp / strike / sonar
+- Removed CI workflows, internal tools, test fixtures
+- Rewrote README for clarity and install simplicity
+- Updated CATALOG.md and skills_index.json
+
+### Why
+Internal pipeline skills (intent-parser, schema-normalizer, etc.)
+were over-engineered for V1. Everything now lives in one file.
+Users install once, get all four modes instantly.
+
 ## [1.0.0] - 2025-05-10
 
 ### Added
