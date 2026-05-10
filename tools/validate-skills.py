@@ -99,7 +99,7 @@ def validate_skill(skill_dir, skill_name, skills_root, tests_root):
 
     # Check 2: Frontmatter is valid YAML
     frontmatter, parse_error = parse_frontmatter(content)
-    if parse_error:
+    if parse_error or frontmatter is None:
         errors.append(f"Frontmatter parse error: {parse_error}")
         return errors
 
@@ -160,7 +160,7 @@ def validate_skill(skill_dir, skill_name, skills_root, tests_root):
 def main():
     # Ensure stdout can handle all characters on any platform
     if hasattr(sys.stdout, "reconfigure"):
-        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # type: ignore
 
     # Determine paths relative to script location
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

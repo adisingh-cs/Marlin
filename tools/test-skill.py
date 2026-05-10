@@ -26,6 +26,7 @@ try:
     HAS_ANTHROPIC = True
 except ImportError:
     HAS_ANTHROPIC = False
+    anthropic = None
 
 
 def estimate_tokens(text, input_type="natural-language"):
@@ -149,7 +150,7 @@ def run_test_offline(test_case, repo_root):
 def main():
     # Ensure stdout can handle all characters on any platform
     if hasattr(sys.stdout, "reconfigure"):
-        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # type: ignore
     parser = argparse.ArgumentParser(description="Run Marlin skill tests")
     parser.add_argument("--skill", help="Specific skill name to test")
     parser.add_argument("--all", action="store_true", help="Test all skills")
@@ -181,7 +182,7 @@ def main():
             print("  Install with: pip install anthropic")
             args.offline = True
         else:
-            client = anthropic.Anthropic(api_key=api_key)
+            client = anthropic.Anthropic(api_key=api_key)  # type: ignore
 
     # Determine which skills to test
     if args.all:

@@ -134,7 +134,7 @@ Choose the mode that fits your workflow:
 ### Quick example
 
 **Input:**
-```
+```text
 Build a REST API endpoint for user registration with email validation,
 password hashing, and JWT token generation. Use Express.js and MongoDB.
 ```
@@ -173,7 +173,7 @@ See [docs/modes.md](docs/modes.md) for complete mode documentation.
 
 Marlin uses a pipeline architecture where skills chain together:
 
-```
+```text
 input → intent-parser → schema-normalizer → key-shortener → value-encoder → output-formatter
 ```
 
