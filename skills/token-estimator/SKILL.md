@@ -1,5 +1,6 @@
 ---
 name: token-estimator
+description: Estimate the token count of a string using character-based heuristics. Use internally when output-formatter needs to calculate and display token savings.
 version: 1.0.0
 author: adisingh-cs
 project: marlin

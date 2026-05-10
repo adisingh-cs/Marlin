@@ -1,5 +1,6 @@
 ---
 name: intent-parser
+description: Extract structured intent fields (goal, action, inputs, domain, constraints, format) from a raw natural language prompt. Use internally as the first step in any Marlin compression pipeline.
 version: 1.0.0
 author: adisingh-cs
 project: marlin

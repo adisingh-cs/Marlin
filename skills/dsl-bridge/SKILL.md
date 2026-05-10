@@ -1,5 +1,6 @@
 ---
 name: dsl-bridge
+description: Convert between Marlin V3 internal DSL format (G:value|A:value) and external model-ready JSON. Use when the user types /marlin dsl or when agent-to-agent prompt passing requires ultra-compact internal format.
 version: 1.0.0
 author: adisingh-cs
 project: marlin

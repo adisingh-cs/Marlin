@@ -31,6 +31,16 @@ Marlin never changes what the model says. It changes what the model reads.
 
 ## Install
 
+**One-liner install (via npx skills):**
+```bash
+npx skills add adisingh-cs/Marlin --skill marlin-compact -g -a claude-code
+npx skills add adisingh-cs/Marlin --skill marlin-compact -g -a cursor
+npx skills add adisingh-cs/Marlin --skill marlin-compact -g -a antigravity
+npx skills add adisingh-cs/Marlin --all -g
+```
+
+*Note: Replace marlin-compact with marlin-structured, marlin-dense, or marlin-domain depending on your preferred mode. Use --all to install all 11 skills at once.*
+
 ### Claude Code
 
 > 🚧 **One-liner install coming in V2** (npm package in progress)

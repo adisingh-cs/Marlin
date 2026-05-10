@@ -1,5 +1,6 @@
 ---
 name: marlin-dense
+description: Apply maximum compression to a prompt by shortening keys, abbreviating values, and collapsing arrays. Use when the user types /marlin dense or needs aggressive token reduction for high-volume or cost-sensitive workflows.
 version: 1.0.0
 author: adisingh-cs
 project: marlin

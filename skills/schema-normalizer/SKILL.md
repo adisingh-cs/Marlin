@@ -1,5 +1,6 @@
 ---
 name: schema-normalizer
+description: Map a parsed intent object to the canonical Marlin base schema, enforcing field types and defaults. Use internally after intent-parser and before any compression skill.
 version: 1.0.0
 author: adisingh-cs
 project: marlin

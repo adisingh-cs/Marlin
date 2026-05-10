@@ -1,5 +1,6 @@
 ---
 name: key-shortener
+description: Replace verbose JSON keys with short single-letter abbreviations using the Marlin key map. Use internally in compact and dense compression modes.
 version: 1.0.0
 author: adisingh-cs
 project: marlin

@@ -1,5 +1,6 @@
 ---
 name: marlin-compact
+description: Compress a prompt into minified JSON with shortened single-letter keys for maximum token efficiency. Use when the user types /marlin compact or wants to reduce input token cost on API calls or agent pipelines.
 version: 1.0.0
 author: adisingh-cs
 project: marlin

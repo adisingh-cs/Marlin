@@ -1,5 +1,6 @@
 ---
 name: value-encoder
+description: Abbreviate common string values in a compressed JSON prompt to further reduce token count. Use internally in dense compression mode only.
 version: 1.0.0
 author: adisingh-cs
 project: marlin

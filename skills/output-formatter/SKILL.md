@@ -1,5 +1,6 @@
 ---
 name: output-formatter
+description: Format the compressed Marlin output as prompt-only, a token savings report, a side-by-side diff, or all three. Use internally as the final step in every Marlin compression pipeline.
 version: 1.0.0
 author: adisingh-cs
 project: marlin

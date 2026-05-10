@@ -1,5 +1,6 @@
 ---
 name: marlin-structured
+description: Compress and normalize a verbose prompt into a structured schema-anchored JSON representation. Use when the user types /marlin structured or asks to normalize, structure, or clean up a prompt before sending it to a model.
 version: 1.0.0
 author: adisingh-cs
 project: marlin

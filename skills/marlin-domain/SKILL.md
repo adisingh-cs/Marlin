@@ -1,5 +1,6 @@
 ---
 name: marlin-domain
+description: Compress a prompt using a domain-specific schema for web-api, data-pipeline, or agent-task workflows. Use when the user types /marlin domain or specifies a domain like web-api, data-pipeline, or agent-task.
 version: 1.0.0
 author: adisingh-cs
 project: marlin
