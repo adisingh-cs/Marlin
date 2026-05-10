@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="https://i.ibb.co/hRghHfj9/logo.png" alt="Marlin Logo" width="128"><br>
-  <strong>🐟 Marlin</strong><br>
+  <img src="https://i.ibb.co/hRghHfj9/logo.png" alt="Marlin Logo" width="200"><br>
+  <strong>Marlin</strong><br>
   <em>Swift input. Sharp output. Every token counts.</em>
 </p>
 
