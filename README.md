@@ -215,16 +215,12 @@ See [docs/schemas.md](docs/schemas.md) for field-level schema documentation.
 
 ## Benchmark results
 
-Baseline results from 10 test prompts across all modes:
+> 🚧 **Benchmark results coming soon.**
+>
+> We have built the harness (`benchmarks/run.py`). Real-world baseline results will be published here soon.
+> See [benchmarks/README.md](benchmarks/README.md) for our methodology.
 
-| Mode | Avg. token reduction |
-|------|---------------------|
-| Structured | 28% |
-| Compact | 44% |
-| Dense | 61% |
-| Domain | 52% |
-
-Run your own benchmarks:
+Run benchmarks yourself:
 ```bash
 export ANTHROPIC_API_KEY=your-key
 python benchmarks/run.py
