@@ -1,0 +1,15 @@
+{
+  "goal": "create user registration system for web application",
+  "action": "create",
+  "inputs": ["username", "email", "password"],
+  "domain": "web-api",
+  "constraints": [
+    "validate-email-format",
+    "password-min-8-chars-1-upper-1-number",
+    "username-unique-in-database",
+    "hash-password-bcrypt",
+    "exclude-password-from-response"
+  ],
+  "format": "json",
+  "examples": null
+}

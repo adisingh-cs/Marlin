@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/adisingh-cs/marlin/schemas/v3/internal-dsl.schema.json",
+  "title": "MarlinV3InternalDSL",
+  "description": "Schema for V3 internal DSL string format. Pipe-delimited key:value pairs using single-letter field codes.",
+  "type": "string",
+  "pattern": "^([A-Z]{1,3}:[^|]+)(\\|[A-Z]{1,3}:[^|]+)*$",
+  "maxLength": 500,
+  "examples": [
+    "G:build login api|A:create|I:email,password,token|D:auth|C:jwt-only|F:json",
+    "G:fetch user data|A:read|I:user-id|D:db|F:json",
+    "G:deploy service|A:deploy|I:docker-image,config|D:infra|C:us-east-1,auto-scale|F:yaml"
+  ]
+}

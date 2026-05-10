@@ -1,0 +1,1 @@
+Create a data pipeline that reads from a PostgreSQL database table called user_events, filters events from the last 7 days, aggregates by event type with count and average duration, writes the results to an S3 bucket in parquet format, runs every 6 hours, and retries up to 5 times on failure with a batch size of 10000 records.

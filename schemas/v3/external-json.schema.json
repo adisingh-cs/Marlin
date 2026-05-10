@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/adisingh-cs/marlin/schemas/v3/external-json.schema.json",
+  "title": "MarlinV3ExternalJSON",
+  "description": "Schema for V3 external JSON format using short keys. This is what gets sent to the LLM.",
+  "type": "object",
+  "required": ["g", "a", "i"],
+  "properties": {
+    "g": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "Goal — the primary objective (short key for 'goal')"
+    },
+    "a": {
+      "type": "string",
+      "description": "Action — the operation to perform (short key for 'action')"
+    },
+    "i": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Inputs — parameters or data (short key for 'inputs')"
+    },
+    "d": {
+      "type": ["string", "null"],
+      "description": "Domain — context area (short key for 'domain')"
+    },
+    "c": {
+      "type": ["array", "null"],
+      "items": { "type": "string" },
+      "description": "Constraints — rules or limits (short key for 'constraints')"
+    },
+    "f": {
+      "type": ["string", "null"],
+      "description": "Format — desired output format (short key for 'format')"
+    },
+    "e": {
+      "type": ["array", "null"],
+      "items": { "type": "string" },
+      "description": "Examples — reference samples (short key for 'examples')"
+    }
+  },
+  "additionalProperties": true
+}

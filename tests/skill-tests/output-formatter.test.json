@@ -1,0 +1,29 @@
+[
+  {
+    "id": "outfmt-001",
+    "description": "Report mode includes token counts and reduction percentage",
+    "input": "Build an API endpoint for user registration with email validation",
+    "mode": "compact",
+    "expected_schema": "schemas/v3/external-json.schema.json",
+    "expected_fields_present": ["g", "a", "i"],
+    "expected_reduction_min_pct": 25
+  },
+  {
+    "id": "outfmt-002",
+    "description": "Prompt mode returns compressed JSON only with no wrapper",
+    "input": "Create a function that sorts an array of objects by date",
+    "mode": "compact",
+    "expected_schema": "schemas/v3/external-json.schema.json",
+    "expected_fields_present": ["g", "a", "i"],
+    "expected_reduction_min_pct": 20
+  },
+  {
+    "id": "outfmt-003",
+    "description": "Diff mode shows original and compressed fields side by side",
+    "input": "Write a database migration that adds an index on the email column of the users table and sets a unique constraint",
+    "mode": "structured",
+    "expected_schema": "schemas/v1/base.schema.json",
+    "expected_fields_present": ["goal", "action", "inputs"],
+    "expected_reduction_min_pct": 20
+  }
+]

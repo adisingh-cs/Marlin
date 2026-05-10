@@ -1,0 +1,47 @@
+name: Validate Skills
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-skills:
+    name: Validate SKILL.md files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run skill validation
+        run: python tools/validate-skills.py
+
+  check-catalog:
+    name: Check catalog is up to date
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Regenerate catalog
+        run: python tools/generate-catalog.py
+
+      - name: Check for uncommitted changes
+        run: |
+          git diff --exit-code CATALOG.md skills_index.json || {
+            echo "::error::CATALOG.md or skills_index.json is stale. Run 'python tools/generate-catalog.py' and commit the changes."
+            exit 1
+          }

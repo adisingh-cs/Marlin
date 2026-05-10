@@ -1,0 +1,29 @@
+[
+  {
+    "id": "dsl-001",
+    "description": "Internal DSL converts to valid external JSON with correct field mapping",
+    "input": "G:build login api|A:create|I:email,password,token|D:auth|C:jwt-only|F:json",
+    "mode": "internal",
+    "expected_schema": "schemas/v3/external-json.schema.json",
+    "expected_fields_present": ["g", "a", "i", "d", "c", "f"],
+    "expected_reduction_min_pct": 0
+  },
+  {
+    "id": "dsl-002",
+    "description": "External JSON converts to valid internal DSL with canonical field order",
+    "input": {"g": "process data", "a": "transform", "i": ["csv", "json"], "d": "data-pipeline", "c": ["validate"], "f": "parquet"},
+    "mode": "internal",
+    "expected_schema": "schemas/v3/internal-dsl.schema.json",
+    "expected_fields_present": [],
+    "expected_reduction_min_pct": 0
+  },
+  {
+    "id": "dsl-003",
+    "description": "DSL with escaped colon in value parses correctly",
+    "input": "G:\"parse key:value pairs\"|A:create|I:config-file|D:data-pipeline|F:json",
+    "mode": "internal",
+    "expected_schema": "schemas/v3/external-json.schema.json",
+    "expected_fields_present": ["g", "a", "i"],
+    "expected_reduction_min_pct": 0
+  }
+]

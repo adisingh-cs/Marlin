@@ -1,0 +1,1 @@
+{"m":"POST","ep":"/api/v2/users","au":"bearer-jwt","pl":["name","email","role"],"mw":["rate-limit-100rpm","cors-dashboard"],"rf":"json","v":"v2"}

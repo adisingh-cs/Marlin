@@ -1,0 +1,29 @@
+[
+  {
+    "id": "tokest-001",
+    "description": "Natural language input uses 4 chars/token ratio",
+    "input": "Build a REST API endpoint that handles user authentication using JWT tokens and returns access and refresh tokens.",
+    "mode": "structured",
+    "expected_schema": "schemas/v1/base.schema.json",
+    "expected_fields_present": ["goal", "action", "inputs"],
+    "expected_reduction_min_pct": 0
+  },
+  {
+    "id": "tokest-002",
+    "description": "JSON input uses 3.5 chars/token ratio",
+    "input": "{\"g\":\"build auth API\",\"a\":\"create\",\"i\":[\"email\",\"password\"],\"d\":\"web-api\"}",
+    "mode": "compact",
+    "expected_schema": "schemas/v3/external-json.schema.json",
+    "expected_fields_present": ["g", "a", "i"],
+    "expected_reduction_min_pct": 0
+  },
+  {
+    "id": "tokest-003",
+    "description": "DSL input uses 3 chars/token ratio",
+    "input": "G:build auth API|A:create|I:email,password|D:web-api",
+    "mode": "internal",
+    "expected_schema": "schemas/v3/internal-dsl.schema.json",
+    "expected_fields_present": [],
+    "expected_reduction_min_pct": 0
+  }
+]

@@ -1,0 +1,1 @@
+{"g":"build auth mw fn for JWT val","a":"create","i":"jwt-token","d":"auth","c":"val-token-expiry-revocation,handle-missing-malformed-tokens,handle-db-conn-failure,support-access-refresh-tokens,token-rotation-on-refresh,log-auth-attempts","f":"json"}

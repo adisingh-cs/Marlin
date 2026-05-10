@@ -1,0 +1,1 @@
+Build a POST endpoint at /api/v2/users that accepts a JSON body with name, email, and role fields. Authenticate using Bearer JWT tokens. Add rate limiting middleware at 100 requests per minute. Return the created user object with a 201 status code. Include CORS headers for cross-origin requests from the dashboard domain.

@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/adisingh-cs/marlin/schemas/v1/base.schema.json",
+  "title": "MarlinBasePrompt",
+  "description": "Base schema for Marlin structured prompt representation (V1)",
+  "type": "object",
+  "required": ["goal", "action", "inputs"],
+  "properties": {
+    "goal": {
+      "type": "string",
+      "maxLength": 100,
+      "description": "The primary objective or purpose of the prompt"
+    },
+    "action": {
+      "type": "string",
+      "description": "The verb or operation to perform"
+    },
+    "inputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Parameters, arguments, or data the action operates on"
+    },
+    "domain": {
+      "type": ["string", "null"],
+      "description": "The context or subject area of the prompt"
+    },
+    "constraints": {
+      "type": ["array", "null"],
+      "items": { "type": "string" },
+      "description": "Rules, limits, or requirements that bound the action"
+    },
+    "format": {
+      "type": "string",
+      "default": "json",
+      "description": "Desired output format"
+    },
+    "examples": {
+      "type": ["array", "null"],
+      "items": { "type": "string" },
+      "description": "Sample inputs, outputs, or references provided for guidance"
+    }
+  },
+  "additionalProperties": false
+}

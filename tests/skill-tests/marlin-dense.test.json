@@ -1,0 +1,29 @@
+[
+  {
+    "id": "dense-001",
+    "description": "Technical prompt with many abbreviatable terms achieves high compression",
+    "input": "Implement an authentication middleware function that validates request tokens against the database, handles authorization for different user roles, and returns appropriate error responses for invalid or expired credentials.",
+    "mode": "dense",
+    "expected_schema": "schemas/v3/external-json.schema.json",
+    "expected_fields_present": ["g", "a", "i"],
+    "expected_reduction_min_pct": 50
+  },
+  {
+    "id": "dense-002",
+    "description": "Infrastructure prompt with deployment and configuration terms compresses aggressively",
+    "input": "Set up the deployment configuration for our microservices infrastructure. Configure environment variables for the database connection, implement health check endpoints, set up the monitoring middleware, and create the application configuration for auto-scaling.",
+    "mode": "dense",
+    "expected_schema": "schemas/v3/external-json.schema.json",
+    "expected_fields_present": ["g", "a", "i"],
+    "expected_reduction_min_pct": 50
+  },
+  {
+    "id": "dense-003",
+    "description": "Single-item arrays collapse to scalars and multi-item arrays inline",
+    "input": "Create a notification subscription component that handles transaction processing and integrates with the payment repository using the standard interface implementation.",
+    "mode": "dense",
+    "expected_schema": "schemas/v3/external-json.schema.json",
+    "expected_fields_present": ["g", "a"],
+    "expected_reduction_min_pct": 45
+  }
+]

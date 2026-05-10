@@ -1,0 +1,29 @@
+# PROMPT-001 — REST API design
+Design a RESTful API for an e-commerce platform that supports product catalog browsing, user authentication with OAuth2, shopping cart management with session persistence, order placement with payment processing integration, and order history retrieval with pagination. Each endpoint should follow REST conventions with proper HTTP methods and status codes.
+
+# PROMPT-002 — Database query
+Write a SQL query that joins the users, orders, and products tables to find the top 10 customers by total spending in the last quarter. Include their name, email, total order count, total amount spent, and their most frequently purchased product category. Handle null values for customers who have no orders.
+
+# PROMPT-003 — React component
+Create a React component called DataTable that renders a sortable, filterable, and paginated table from an array of objects. It should support column-level sorting with ascending and descending toggles, a global search filter, configurable page sizes of 10, 25, and 50 rows, and export to CSV. Use TypeScript and styled-components.
+
+# PROMPT-004 — Authentication flow
+Implement a complete authentication flow for a Node.js application using Passport.js that supports local username and password login, Google OAuth2 social login, JWT token issuance with 15-minute access tokens and 7-day refresh tokens, secure HTTP-only cookie storage, and CSRF protection. Include logout functionality that invalidates both tokens.
+
+# PROMPT-005 — Data pipeline
+Build an Apache Airflow DAG that extracts user activity logs from a PostgreSQL database every 4 hours, transforms the data by sessionizing events with a 30-minute inactivity timeout, calculates engagement metrics including session duration and pages per session, loads the results into a Snowflake data warehouse, and sends a Slack notification on success or failure.
+
+# PROMPT-006 — Agent task
+Create an AI research agent that takes a company name as input, searches the web for recent news articles and press releases about that company, analyzes sentiment across all sources, extracts key financial metrics and strategic announcements, compiles a structured executive summary, and hands off the report to a presentation-builder agent for slide generation.
+
+# PROMPT-007 — Code review
+Review this Python codebase for security vulnerabilities, focusing on SQL injection risks in database queries, cross-site scripting in template rendering, insecure deserialization of user input, hardcoded credentials or API keys, missing input validation on API endpoints, and improper error handling that leaks stack traces. Provide severity ratings and remediation steps.
+
+# PROMPT-008 — Bug fix
+Debug and fix the intermittent timeout issue in our payment processing microservice. The service occasionally fails to respond within the 30-second SLA when processing credit card transactions through the Stripe API. Check for connection pool exhaustion, retry logic without exponential backoff, missing circuit breaker patterns, and thread-safety issues in the shared HTTP client configuration.
+
+# PROMPT-009 — Deployment configuration
+Create a Kubernetes deployment manifest for a three-tier web application consisting of a React frontend served by Nginx, a Node.js API backend with 3 replicas and horizontal pod autoscaling between 3 and 10 pods, and a Redis cache cluster with persistence enabled. Include resource limits, health checks, service definitions, and an ingress controller configuration with TLS termination.
+
+# PROMPT-010 — General question
+Explain the tradeoffs between using a monolithic architecture versus microservices for a startup building a SaaS project management tool. Consider factors like development speed, team size of 5 developers, deployment complexity, data consistency requirements, cost of infrastructure, and the ability to scale individual components independently as the user base grows from 100 to 100000 users.

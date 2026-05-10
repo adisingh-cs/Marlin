@@ -1,0 +1,3 @@
+G:build login api|A:create|I:email,password,token|D:auth|C:jwt-only|F:json
+G:process sales data|A:transform|I:sales-csv,revenue-col|D:data-pipeline|C:filter-nulls,sort-desc|F:parquet
+G:research competitor pricing|A:analyze|I:web-search,doc-analysis|D:agent-task|C:dev-tools-only|F:report|E:stripe-pricing-page

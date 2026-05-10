@@ -1,0 +1,27 @@
+[
+  {
+    "g": "build login api",
+    "a": "create",
+    "i": ["email", "password", "token"],
+    "d": "auth",
+    "c": ["jwt-only"],
+    "f": "json"
+  },
+  {
+    "g": "process sales data",
+    "a": "transform",
+    "i": ["sales-csv", "revenue-col"],
+    "d": "data-pipeline",
+    "c": ["filter-nulls", "sort-desc"],
+    "f": "parquet"
+  },
+  {
+    "g": "research competitor pricing",
+    "a": "analyze",
+    "i": ["web-search", "doc-analysis"],
+    "d": "agent-task",
+    "c": ["dev-tools-only"],
+    "f": "report",
+    "e": ["stripe-pricing-page"]
+  }
+]

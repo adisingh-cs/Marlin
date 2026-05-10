@@ -1,0 +1,29 @@
+[
+  {
+    "id": "compact-001",
+    "description": "Standard API prompt compressed with short keys and minified JSON",
+    "input": "Build a REST API endpoint that handles user authentication using JWT tokens. The endpoint should accept email and password, validate against the database, and return access and refresh tokens.",
+    "mode": "compact",
+    "expected_schema": "schemas/v3/external-json.schema.json",
+    "expected_fields_present": ["g", "a", "i"],
+    "expected_reduction_min_pct": 35
+  },
+  {
+    "id": "compact-002",
+    "description": "Frontend component prompt with multiple constraints compresses cleanly",
+    "input": "Create a React dashboard component that displays real-time metrics using WebSocket connections, supports dark mode toggle, has responsive layout with CSS Grid, and includes export to CSV functionality.",
+    "mode": "compact",
+    "expected_schema": "schemas/v3/external-json.schema.json",
+    "expected_fields_present": ["g", "a", "i"],
+    "expected_reduction_min_pct": 30
+  },
+  {
+    "id": "compact-003",
+    "description": "Null and empty fields are dropped from compact output",
+    "input": "Write a Python script that sorts a list of numbers",
+    "mode": "compact",
+    "expected_schema": "schemas/v3/external-json.schema.json",
+    "expected_fields_present": ["g", "a", "i"],
+    "expected_reduction_min_pct": 25
+  }
+]

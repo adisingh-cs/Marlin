@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/adisingh-cs/marlin/schemas/v1/data-pipeline.schema.json",
+  "title": "MarlinDataPipelinePrompt",
+  "description": "Domain schema for data pipeline prompts in Marlin",
+  "type": "object",
+  "required": ["source", "transform", "sink"],
+  "properties": {
+    "source": {
+      "type": "string",
+      "description": "Data source (e.g., database name, file path, API endpoint)"
+    },
+    "transform": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Transformation steps to apply to the data"
+    },
+    "sink": {
+      "type": "string",
+      "description": "Destination for the processed data"
+    },
+    "schedule": {
+      "type": ["string", "null"],
+      "description": "Execution schedule (e.g., cron expression, interval)"
+    },
+    "format": {
+      "type": ["string", "null"],
+      "description": "Data format (e.g., parquet, csv, json)"
+    },
+    "batch-size": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "description": "Number of records per batch"
+    },
+    "retry": {
+      "type": ["integer", "null"],
+      "default": 3,
+      "minimum": 0,
+      "description": "Number of retry attempts on failure"
+    },
+    "schema-version": {
+      "type": ["string", "null"],
+      "description": "Version of the data schema being processed"
+    }
+  },
+  "additionalProperties": false
+}

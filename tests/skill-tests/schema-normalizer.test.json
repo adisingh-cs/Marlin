@@ -1,0 +1,29 @@
+[
+  {
+    "id": "normalizer-001",
+    "description": "Clean input passes through with minimal changes",
+    "input": {"goal": "build REST API", "action": "create", "inputs": ["users", "posts"], "domain": "web-api", "constraints": null, "format": "json", "examples": null},
+    "mode": "structured",
+    "expected_schema": "schemas/v1/base.schema.json",
+    "expected_fields_present": ["goal", "action", "inputs", "format"],
+    "expected_reduction_min_pct": 0
+  },
+  {
+    "id": "normalizer-002",
+    "description": "Scalar strings coerced to arrays for inputs, constraints, and examples fields",
+    "input": {"goal": "  Write a script  ", "action": "  WRITE  ", "inputs": "csv-file", "domain": "Data Pipeline", "constraints": "filter-nulls", "format": null, "examples": "pandas"},
+    "mode": "structured",
+    "expected_schema": "schemas/v1/base.schema.json",
+    "expected_fields_present": ["goal", "action", "inputs", "domain", "constraints", "format", "examples"],
+    "expected_reduction_min_pct": 0
+  },
+  {
+    "id": "normalizer-003",
+    "description": "Missing optional fields get null defaults and format defaults to json",
+    "input": {"goal": "deploy container", "action": "deploy", "inputs": ["docker-image"]},
+    "mode": "structured",
+    "expected_schema": "schemas/v1/base.schema.json",
+    "expected_fields_present": ["goal", "action", "inputs", "format"],
+    "expected_reduction_min_pct": 0
+  }
+]

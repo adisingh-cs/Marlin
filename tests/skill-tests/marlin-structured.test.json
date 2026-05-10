@@ -1,0 +1,29 @@
+[
+  {
+    "id": "structured-001",
+    "description": "Coding task prompt normalizes to base schema with all fields populated",
+    "input": "Build a REST API with Express.js that has CRUD endpoints for managing blog posts. Each post should have a title, body, author, and tags. Use MongoDB for storage and add input validation.",
+    "mode": "structured",
+    "expected_schema": "schemas/v1/base.schema.json",
+    "expected_fields_present": ["goal", "action", "inputs"],
+    "expected_reduction_min_pct": 20
+  },
+  {
+    "id": "structured-002",
+    "description": "Vague prompt still produces valid structured output with null optional fields",
+    "input": "Help me write something that processes data from a file and outputs results",
+    "mode": "structured",
+    "expected_schema": "schemas/v1/base.schema.json",
+    "expected_fields_present": ["goal", "action", "inputs"],
+    "expected_reduction_min_pct": 10
+  },
+  {
+    "id": "structured-003",
+    "description": "Complex multi-constraint prompt captures all constraints as array items",
+    "input": "Create a user authentication system that supports OAuth2, requires MFA for admin accounts, locks accounts after 5 failed attempts, uses bcrypt for password hashing, stores sessions in Redis with 24-hour expiry, and logs all auth events to CloudWatch.",
+    "mode": "structured",
+    "expected_schema": "schemas/v1/base.schema.json",
+    "expected_fields_present": ["goal", "action", "inputs", "constraints"],
+    "expected_reduction_min_pct": 25
+  }
+]

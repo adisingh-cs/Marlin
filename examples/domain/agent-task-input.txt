@@ -1,0 +1,1 @@
+Create an AI agent task that researches competitor pricing for SaaS products in the developer tools category. The agent should use web search and document analysis tools, maintain conversation memory across steps, output a structured comparison report, and hand off the result to the pricing-strategy agent. Priority is high. Limit context window to 8000 tokens.

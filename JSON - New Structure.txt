@@ -1,0 +1,129 @@
+PROJECT IDEA: AI-NATIVE PROMPT OPTIMIZATION & COMPACT REPRESENTATION SYSTEM
+
+OVERVIEW:
+I am exploring building a system (library / API / IDE plugin) that converts human-written prompts into a more structured, token-efficient format optimized for AI models (like Claude or GPT). The goal is to reduce token usage, improve clarity, and make AI agents more efficient.
+
+CORE IDEA:
+
+* Input: Human natural language prompt
+* Output: Structured, compressed representation
+* Then: Sent to AI model for better performance
+
+IMPORTANT CLARIFICATIONS:
+
+* Binary or assembly is NOT suitable for LLMs (models are trained on text, not binary)
+* Best format is structured, compact text (not raw low-level code)
+* JSON is a strong starting point but not optimal in raw form
+
+APPROACH:
+
+1. Parse human intent
+2. Convert into structured schema
+3. Compress representation
+4. Send optimized version to AI
+5. (Optional) Convert back to human-readable output
+
+FORMATS CONSIDERED:
+
+1. JSON (Baseline)
+
+* Pros: structured, widely supported, reliable
+* Cons: token overhead (quotes, repeated keys)
+
+2. Optimized JSON
+
+* Short keys (g, a, i, e)
+* Minified (no spaces)
+* Optional value compression
+* Expected savings: ~20–50%
+
+Example:
+{"g":"api","a":"jwt","i":["e","p"],"e":"login"}
+
+3. Custom Compact Format (DSL-like)
+   Example:
+   G:API|A:JWT|I:e,p|E:login
+
+* Pros: very compact
+* Cons: not natively understood by LLMs
+
+4. Ultra-Compact Schema-Based Format
+   Example:
+   SCHEMA: g,a,i,e
+   DATA: a|j|e,p|l
+
+* Highest compression
+* Requires mapping + parser
+* Risk of reduced model performance
+
+KEY INSIGHT:
+The system is essentially a "Prompt Compiler":
+Human Language → Structured Representation → AI Model
+
+NOT a traditional programming language.
+
+TOKEN EFFICIENCY REALITY:
+
+* Minification: 10–20%
+* Key compression: 20–40%
+* Value compression: 40–60%
+* Custom formats: up to ~70–80% (with tradeoffs)
+
+TRADEOFFS:
+
+* More compression = less readability
+* Over-compression can reduce AI accuracy
+* Models are trained on JSON/natural language, not custom formats
+
+RECOMMENDED STRATEGY:
+
+V1:
+
+* Use optimized JSON (short keys + minified)
+* Fixed schema
+* Focus on one domain (e.g., web APIs)
+
+V2:
+
+* Add compression layer
+* Possibly introduce internal compact format
+
+V3:
+
+* Dual system:
+  Internal format (compact)
+  External format (model-friendly JSON)
+
+ARCHITECTURE:
+
+1. Input Layer
+
+* User prompt (IDE/plugin/API)
+
+2. Optimization Engine (core product)
+
+* Parse intent
+* Normalize structure
+* Compress tokens
+
+3. Output Layer
+
+* Send to AI model (Claude/GPT)
+
+FUTURE EXTENSION:
+
+* AI-native DSL (machine-first language)
+* Multi-agent orchestration
+* Domain-specific schemas (web dev, APIs, etc.)
+
+BIG PICTURE:
+This is an attempt to build an "AI-native interface layer" between humans and LLMs, focusing on efficiency, structure, and reliability rather than human readability.
+
+GOAL:
+Make AI interactions:
+
+* cheaper (fewer tokens)
+* more deterministic
+* easier for agents to use
+
+END OF CONTEXT

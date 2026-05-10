@@ -1,0 +1,1 @@
+{"g":"build auth API endpoint with JWT","a":"create","i":["email","password"],"d":"web-api","c":["jwt-only","validate-against-db","return-access-and-refresh-tokens","rate-limit-50rpm"],"f":"json"}

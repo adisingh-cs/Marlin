@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/adisingh-cs/marlin/schemas/v1/agent-task.schema.json",
+  "title": "MarlinAgentTaskPrompt",
+  "description": "Domain schema for agent task prompts in Marlin",
+  "type": "object",
+  "required": ["objective", "tools", "output-type"],
+  "properties": {
+    "objective": {
+      "type": "string",
+      "description": "The agent's primary goal or task"
+    },
+    "tools": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tools or capabilities the agent should use"
+    },
+    "output-type": {
+      "type": "string",
+      "description": "Expected output type (e.g., code, report, data, action)"
+    },
+    "memory": {
+      "type": ["string", "null"],
+      "description": "Memory or context persistence mode"
+    },
+    "constraints": {
+      "type": ["array", "null"],
+      "items": { "type": "string" },
+      "description": "Boundaries or rules the agent must follow"
+    },
+    "handoff": {
+      "type": ["string", "null"],
+      "description": "Target agent or process for result handoff"
+    },
+    "priority": {
+      "type": ["string", "null"],
+      "enum": ["low", "medium", "high", "critical", null],
+      "description": "Task priority level"
+    },
+    "context-window": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "description": "Maximum context window tokens available"
+    }
+  },
+  "additionalProperties": false
+}

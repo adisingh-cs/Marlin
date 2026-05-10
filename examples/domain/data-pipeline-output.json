@@ -1,0 +1,1 @@
+{"src":"postgresql/user_events","tr":["filter-last-7d","agg-by-event-type-count-avg-duration"],"sk":"s3-bucket","f":"parquet","sched":"every-6h","rt":5,"bs":10000}

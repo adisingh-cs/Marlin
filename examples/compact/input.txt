@@ -1,0 +1,1 @@
+I need to build a REST API endpoint that handles user authentication using JWT tokens. The endpoint should accept email and password as inputs, validate them against the database, and return an access token and refresh token if successful. Use Express.js with middleware for rate limiting at 50 requests per minute.
