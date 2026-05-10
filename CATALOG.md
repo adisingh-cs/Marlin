@@ -1,7 +1,7 @@
 # Marlin Skill Catalog
 
 > Auto-generated from SKILL.md frontmatter. Do not edit manually.
-> Last generated: 2026-05-10T08:30:55Z
+> Last generated: 2026-05-10T08:35:32Z
 
 ## Compression
 
