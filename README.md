@@ -31,57 +31,95 @@ Marlin never changes what the model says. It changes what the model reads.
 
 ## Install
 
-One-line install for your agent platform:
-
 ### Claude Code
+
+> 🚧 **One-liner install coming in V2** (npm package in progress)
+>
+> ```bash
+> # Coming soon — V2
+> # claude mcp add marlin -- npx -y marlin-skills@latest
+> ```
+
+**Install now (manual):**
 ```bash
-claude mcp add marlin -- npx -y @anthropic/marlin-skills@latest
+git clone https://github.com/adisingh-cs/Marlin.git
+# Copy skills/marlin-{mode}/SKILL.md into your Claude Code skills folder
+# Or add the skills/ directory to your Claude Code config
 ```
 
 ### Cursor
-Add to `.cursor/mcp.json`:
-```json
-{
-  "mcpServers": {
-    "marlin": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/marlin-skills@latest"]
-    }
-  }
-}
+
+> 🚧 **One-liner install coming in V2** (npm package in progress)
+>
+> ```bash
+> # Coming soon — V2
+> # npx skills add adisingh-cs/marlin -a cursor
+> ```
+
+**Install now (manual):**
+```bash
+git clone https://github.com/adisingh-cs/Marlin.git
+# Copy skills/marlin-{mode}/SKILL.md into .cursor/skills/
 ```
 
 ### Gemini CLI
-Add to `~/.gemini/settings.json`:
-```json
-{
-  "mcpServers": {
-    "marlin": {
-      "command": "npx",
-      "args": ["-y", "@anthropic/marlin-skills@latest"]
-    }
-  }
-}
+
+> 🚧 **One-liner install coming in V2** (npm package in progress)
+>
+> ```bash
+> # Coming soon — V2
+> # gemini extensions install https://github.com/adisingh-cs/Marlin
+> ```
+
+**Install now (manual):**
+```bash
+git clone https://github.com/adisingh-cs/Marlin.git
+# Copy skills/marlin-{mode}/SKILL.md into your Gemini CLI skills folder
 ```
 
 ### Codex
+
+> 🚧 **One-liner install coming in V2** (npm package in progress)
+>
+> ```bash
+> # Coming soon — V2
+> # npx skills add adisingh-cs/marlin -a codex
+> ```
+
+**Install now (manual):**
 ```bash
-codex install marlin
+git clone https://github.com/adisingh-cs/Marlin.git
+# Copy skills/marlin-{mode}/SKILL.md into your Codex skills folder
 ```
 
 ### Antigravity
-Add to skill configuration:
+
+**Works now:**
 ```json
 {
-  "skills": ["github:adisingh-cs/marlin"]
+  "skills": ["github:adisingh-cs/Marlin"]
 }
 ```
 
-### Manual (any agent)
-Clone the repo and point your agent's skill directory at `skills/`:
+Or via npx skills:
 ```bash
-git clone https://github.com/adisingh-cs/marlin.git
+npx skills add adisingh-cs/Marlin -a antigravity
 ```
+
+### Any other agent (manual install — works now)
+
+```bash
+git clone https://github.com/adisingh-cs/Marlin.git
+```
+Then copy the relevant `skills/marlin-{mode}/SKILL.md` file into your agent's skills directory.
+
+Choose the mode that fits your workflow:
+- `skills/marlin-structured/` — normalized schema output
+- `skills/marlin-compact/` — short keys + minified JSON
+- `skills/marlin-dense/` — maximum compression
+- `skills/marlin-domain/` — domain-specific schemas (web-api, data-pipeline, agent-task)
+
+> 💡 **V2 Roadmap:** The npm package (`marlin-skills`) and one-liner installs for all platforms are coming in V2 alongside deterministic offline compression. [See roadmap →](docs/roadmap.md)
 
 ## Modes
 
