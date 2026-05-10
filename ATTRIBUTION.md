@@ -8,4 +8,4 @@ https://github.com/adisingh-cs/marlin means a lot and helps others find it.
 
 Not required. Never enforced. Just appreciated.
 
-— Adi Singh ([@adisingh-cs](https://github.com/adisingh-cs))
+— Aditya Singh ([@adisingh-cs](https://github.com/adisingh-cs))
