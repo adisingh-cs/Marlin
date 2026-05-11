@@ -1,0 +1,17 @@
+---
+description: Marlin input prompt optimizer. Activate on /marlin commands to compress prompts before sending to model.
+globs: []
+alwaysApply: false
+---
+
+When the user types /marlin swift, /marlin sharp, /marlin strike,
+or /marlin sonar — apply Marlin input compression to their prompt
+before processing. Full instructions: https://github.com/adisingh-cs/Marlin
+
+Modes:
+- /marlin swift: normalize to schema (~20-35% token cut)
+- /marlin sharp: compact JSON + short keys (~35-50% token cut)
+- /marlin strike: maximum compression (~50-70% token cut)
+- /marlin sonar --schema [web-api|data-pipeline|agent-task]: domain schema (~40-65% token cut)
+
+Append --report (default), --prompt, --diff, or --all to control output.
