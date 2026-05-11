@@ -33,28 +33,63 @@ Input tokens cost money. Verbose prompts waste context window. Marlin fixes the 
 
 ## Install
 
-**One command. Works globally across all your projects.**
+### One-liner (recommended — auto-detects your agents)
 
+**macOS / Linux / WSL / Git Bash:**
 ```bash
-npx skills add adisingh-cs/Marlin -g -a antigravity
+curl -fsSL https://raw.githubusercontent.com/adisingh-cs/Marlin/main/install.sh | bash
 ```
 
-Replace `-a antigravity` with your agent:
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/adisingh-cs/Marlin/main/install.ps1 | iex
+```
+
+Detects Claude Code, Gemini CLI, Cursor, Windsurf, Cline, Copilot,
+Codex, Antigravity, opencode, Roo, Kiro, and more.
+Runs each one's native install. Skips what you don't have. Safe to re-run.
+
+```bash
+bash install.sh --all      # also drop always-on rule files into current repo
+bash install.sh --minimal  # skill only, no extras
+bash install.sh --list     # show all supported agent slugs
+```
+
+---
+
+### Install by agent
 
 | Agent | Command |
 |---|---|
-| Antigravity | `npx skills add adisingh-cs/Marlin -g -a antigravity` |
 | Claude Code | `npx skills add adisingh-cs/Marlin -g -a claude-code` |
+| Gemini CLI | `gemini extensions install https://github.com/adisingh-cs/Marlin` |
 | Cursor | `npx skills add adisingh-cs/Marlin -g -a cursor` |
+| Windsurf | `npx skills add adisingh-cs/Marlin -g -a windsurf` |
+| Cline | `npx skills add adisingh-cs/Marlin -g -a cline` |
+| GitHub Copilot | `npx skills add adisingh-cs/Marlin -g -a github-copilot` |
+| Codex | `npx skills add adisingh-cs/Marlin -g -a codex` |
+| Antigravity | `npx skills add adisingh-cs/Marlin -g -a antigravity` |
+| opencode | `npx skills add adisingh-cs/Marlin -g -a opencode` |
 | All agents | `npx skills add adisingh-cs/Marlin -g` |
 
-**Manual install (any agent that supports SKILL.md):**
-```bash
-git clone https://github.com/adisingh-cs/Marlin.git
-# Copy SKILL.md into your agent's skills folder
-```
+---
 
-> 💡 One-liner installs for Gemini CLI, Codex, and OpenCode coming in V2.
+### Claude.ai (chat interface)
+
+1. Download ZIP from [github.com/adisingh-cs/Marlin](https://github.com/adisingh-cs/Marlin)
+2. Go to [claude.ai/customize/skills](https://claude.ai/customize/skills)
+3. Click `+` → upload `SKILL.md` from the ZIP
+4. Done — use `/marlin swift`, `/marlin sharp`, `/marlin strike`, `/marlin sonar`
+
+---
+
+### Uninstall
+
+```bash
+npx skills remove marlin
+# or
+gemini extensions uninstall marlin
+```
 
 ---
 
