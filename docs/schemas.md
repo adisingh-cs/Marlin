@@ -1,126 +1,79 @@
 # Schemas
 
-Marlin uses JSON Schema (draft-07) to anchor every stage of the compression pipeline. Schemas define the contract between skills — ensuring that output from one skill is valid input for the next.
+Marlin uses JSON Schema draft-07 files to document the structured outputs
+described in the root `SKILL.md`. The current V1 implementation is a single
+skill, so schemas are contracts for agent/model behavior rather than runtime
+validators.
 
-## Schema inventory
+## Schema Inventory
 
 | Schema | Path | Used by |
-|--------|------|---------|
-| Base prompt | `schemas/v1/base.schema.json` | structured, compact, dense modes |
-| Web API | `schemas/v1/web-api.schema.json` | domain mode (--schema web-api) |
-| Data pipeline | `schemas/v1/data-pipeline.schema.json` | domain mode (--schema data-pipeline) |
-| Agent task | `schemas/v1/agent-task.schema.json` | domain mode (--schema agent-task) |
-| V3 internal DSL | `schemas/v3/internal-dsl.schema.json` | dsl-bridge |
-| V3 external JSON | `schemas/v3/external-json.schema.json` | dsl-bridge, compact output validation |
+|---|---|---|
+| Base prompt | `schemas/v1/base.schema.json` | swift, sharp, strike |
+| Web API | `schemas/v1/web-api.schema.json` | sonar `--schema web-api` |
+| Data pipeline | `schemas/v1/data-pipeline.schema.json` | sonar `--schema data-pipeline` |
+| Agent task | `schemas/v1/agent-task.schema.json` | sonar `--schema agent-task` |
+| V3 internal DSL | `schemas/v3/internal-dsl.schema.json` | DSL storage/transport |
+| V3 external JSON | `schemas/v3/external-json.schema.json` | short-key JSON sent to models |
 
-## Base schema
+## Base Schema
 
-The foundational schema used by structured, compact, and dense modes.
+The base schema is used by swift directly and by sharp/strike before key
+shortening.
 
 | Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| goal | string (max 100) | Yes | — | Primary objective |
-| action | string | Yes | — | Operation verb |
-| inputs | array of strings | Yes | — | Parameters or data |
+|---|---|---:|---|---|
+| goal | string, max 100 | Yes | - | Primary objective |
+| action | string | Yes | - | Operation verb |
+| inputs | array of strings | Yes | - | Parameters or data |
 | domain | string or null | No | null | Context area |
 | constraints | array of strings or null | No | null | Rules and limits |
-| format | string | No | "json" | Desired output format |
+| format | string | No | json | Desired output format |
 | examples | array of strings or null | No | null | Reference samples |
 
-No additional properties allowed.
+## Domain Schemas
 
-## Web API schema
+### Web API
 
-Specialized for REST/GraphQL API prompts.
+Fields: `method`, `endpoint`, `auth`, `payload`, `headers`,
+`response-format`, `version`, `middleware`.
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| method | enum: GET, POST, PUT, DELETE, PATCH | Yes | — | HTTP method |
-| endpoint | string | Yes | — | API path or URL |
-| auth | string or null | No | null | Auth mechanism |
-| payload | array of strings or null | No | null | Request fields |
-| headers | array of strings or null | No | null | Required headers |
-| response-format | string | No | "json" | Response format |
-| version | string or null | No | null | API version |
-| middleware | array of strings or null | No | null | Middleware layers |
+Required: `method`, `endpoint`.
 
-## Data pipeline schema
+### Data Pipeline
 
-Specialized for ETL and data processing prompts.
+Fields: `source`, `transform`, `sink`, `schedule`, `format`, `batch-size`,
+`retry`, `schema-version`.
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| source | string | Yes | — | Data source |
-| transform | array of strings | Yes | — | Transformation steps |
-| sink | string | Yes | — | Data destination |
-| schedule | string or null | No | null | Execution schedule |
-| format | string or null | No | null | Data format |
-| batch-size | integer or null | No | null | Records per batch |
-| retry | integer or null | No | 3 | Retry attempts |
-| schema-version | string or null | No | null | Data schema version |
+Required: `source`, `transform`, `sink`.
 
-## Agent task schema
+### Agent Task
 
-Specialized for AI agent task definitions.
+Fields: `objective`, `tools`, `output-type`, `memory`, `constraints`,
+`handoff`, `priority`, `context-window`.
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| objective | string | Yes | — | Agent's primary goal |
-| tools | array of strings | Yes | — | Available tools |
-| output-type | string | Yes | — | Expected output type |
-| memory | string or null | No | null | Memory mode |
-| constraints | array of strings or null | No | null | Boundaries |
-| handoff | string or null | No | null | Handoff target |
-| priority | enum: low, medium, high, critical, null | No | null | Task priority |
-| context-window | integer or null | No | null | Max context tokens |
+Required: `objective`, `tools`, `output-type`.
 
-## V3 schemas
+## V3 Schemas
 
-### Internal DSL schema
-- Type: string
-- Pattern: `^([A-Z]{1,3}:[^|]+)(\\|[A-Z]{1,3}:[^|]+)*$`
-- Max length: 500 characters
-- No spaces allowed
+The internal DSL schema validates compact strings such as:
 
-### External JSON schema
-- Same semantic fields as base schema but with short keys (g, a, i, d, c, f, e)
-- Required: g, a, i
-- Allows additional properties (for domain-specific fields)
-
-## How schemas flow through the pipeline
-
-```
-Natural language input
-        │
-        ▼
-  [No schema — raw text]
-        │
-   intent-parser
-        │
-        ▼
-  [Partial base schema — nulls allowed]
-        │
-   schema-normalizer
-        │
-        ▼
-  [Full base schema — types enforced, defaults applied]
-        │
-   key-shortener
-        │
-        ▼
-  [V3 external JSON schema — short keys]
-        │
-   value-encoder (dense only)
-        │
-        ▼
-  [V3 external JSON schema — short keys + abbreviated values]
+```text
+G:build login api|A:create|I:email,password|D:auth|F:json
 ```
 
-## Adding new schemas
+The external JSON schema validates short-key JSON objects such as:
 
-1. Create the schema file at `schemas/v1/{domain}.schema.json`
-2. Follow JSON Schema draft-07 format
-3. Define required and optional fields
-4. Set `additionalProperties: false`
-5. Create a corresponding key map at `schemas/key-maps/{domain}-keymap.json`
-6. Add domain support to the `marlin-domain` skill
+```json
+{"g":"build login api","a":"create","i":["email","password"],"d":"auth","f":"json"}
+```
+
+## Adding New Schemas
+
+1. Create `schemas/v1/{domain}.schema.json`.
+2. Follow JSON Schema draft-07.
+3. Define required and optional fields.
+4. Set `additionalProperties: false` unless the domain needs extension fields.
+5. Create `schemas/key-maps/{domain}-keymap.json`.
+6. Add the domain to the sonar section of root `SKILL.md`.
+7. Add examples and benchmark prompts that exercise the new schema.

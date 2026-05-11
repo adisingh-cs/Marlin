@@ -23,7 +23,7 @@ signal and returns sharper, more deterministic output.
 
 ## Modes
 
-| Command | Mode | Token Reduction | Best For |
+| Command | Mode | Target Reduction | Best For |
 |---|---|---|---|
 | `/marlin swift` | Structured | ~20–35% | General prompts, first use |
 | `/marlin sharp` | Compact | ~35–50% | API calls, repeated workflows |
@@ -203,7 +203,7 @@ Available schemas: `web-api`, `data-pipeline`, `agent-task`
 **Schema: web-api**
 Fields: method, endpoint, auth, payload, headers, response-format,
 version, middleware
-Key map extension: method→mth, endpoint→ep, auth→au, payload→pl,
+Key map extension: method→m, endpoint→ep, auth→au, payload→pl,
 headers→hd, response-format→rf, version→v, middleware→mw
 
 Example input:
@@ -215,7 +215,7 @@ token and refresh token. Requires Authorization header. Version 2.
 
 Example output (--report):
 ```json
-{"mth":"POST","ep":"/api/users/login","au":"jwt","pl":["email","password"],"hd":["Authorization"],"rf":"json","v":"2"}
+{"m":"POST","ep":"/api/users/login","au":"jwt","pl":["email","password"],"hd":["Authorization"],"rf":"json","v":"2"}
 ```
 Original: ~42 tokens | Compressed: ~21 tokens | Saved: ~50%
 
@@ -309,10 +309,10 @@ Stack the savings. They solve different halves of the same problem.
 ## Quick Reference
 
 ```
-/marlin swift          Normalize + structure (~20-35% savings)
-/marlin sharp          Compact JSON + short keys (~35-50% savings)
-/marlin strike         Maximum compression (~50-70% savings)
-/marlin sonar          Domain schema compression (~40-65% savings)
+/marlin swift          Normalize + structure (target: ~20-35% savings)
+/marlin sharp          Compact JSON + short keys (target: ~35-50% savings)
+/marlin strike         Maximum compression (target: ~50-70% savings)
+/marlin sonar          Domain schema compression (target: ~40-65% savings)
 
 Flags (append to any):
   --prompt             Compressed prompt only

@@ -97,7 +97,7 @@ gemini extensions uninstall marlin
 
 Four modes. One command prefix. You pick the intensity.
 
-| Command | Intensity | Token Reduction | Best For |
+| Command | Intensity | Target Reduction | Best For |
 |---|---|---|---|
 | `/marlin swift` | Light | ~20–35% | General prompts, first use |
 | `/marlin sharp` | Mid | ~35–50% | API calls, repeated workflows |
@@ -181,7 +181,7 @@ Requires Authorization header. Version 2.
 
 Output:
 ```json
-{"mth":"POST","ep":"/api/users/login","au":"jwt","pl":["email","password"],"hd":["Authorization"],"rf":"json","v":"2"}
+{"m":"POST","ep":"/api/users/login","au":"jwt","pl":["email","password"],"hd":["Authorization"],"rf":"json","v":"2"}
 ```
 > Original: ~42 tokens → Compressed: ~21 tokens → Saved: ~50%
 
@@ -223,10 +223,10 @@ Append `--dsl` to any mode command for DSL output.
 ## Quick Reference
 
 ```
-/marlin swift          Normalize + structure  (~20–35%)
-/marlin sharp          Compact + short keys   (~35–50%)
-/marlin strike         Maximum compression    (~50–70%)
-/marlin sonar          Domain schema          (~40–65%)
+/marlin swift          Normalize + structure  (target: ~20–35%)
+/marlin sharp          Compact + short keys   (target: ~35–50%)
+/marlin strike         Maximum compression    (target: ~50–70%)
+/marlin sonar          Domain schema          (target: ~40–65%)
 
 --prompt   Compressed prompt only
 --report   Prompt + savings report (default)
@@ -246,8 +246,12 @@ compresses **output**. Run both — save on both ends.
 
 ## Benchmarks
 
-> 🚧 Benchmark results coming in V1.1 — harness is ready.
-> Run it yourself: `cd benchmarks && python run.py` (requires `ANTHROPIC_API_KEY`)
+> 🚧 Benchmark results pending.
+> Run it yourself with OpenRouter:
+> `python benchmarks/run.py --api-key "sk-or-..." --model "openai/gpt-4o-mini"`
+>
+> You can also set `OPENROUTER_API_KEY` and `OPENROUTER_MODEL`.
+> The harness records heuristic token savings plus compression-system overhead.
 
 ---
 

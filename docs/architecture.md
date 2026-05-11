@@ -1,137 +1,75 @@
 # Architecture
 
-Marlin is a pipeline-based prompt compression system. Every prompt flows through a series of skills, each performing one transformation step. The architecture is designed for composability — skills chain together, schemas anchor the data contract at every stage, and output formatting is decoupled from compression logic.
+Marlin V1 is a single-skill prompt compression system. The root `SKILL.md`
+contains the behavior for all user-facing modes: `swift`, `sharp`, `strike`,
+and `sonar`. Supporting files in `schemas/`, `schemas/key-maps/`, and
+`examples/` document the contracts that the skill asks an agent or model to
+apply.
 
-## System overview
+## System Overview
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                      USER INPUT                          │
-│              (natural language prompt)                    │
-└────────────────────────┬─────────────────────────────────┘
-                         │
-                         ▼
-┌──────────────────────────────────────────────────────────┐
-│                   MODE SELECTOR                          │
-│   /marlin structured | compact | dense | domain | dsl    │
-└────────────────────────┬─────────────────────────────────┘
-                         │
-          ┌──────────────┼──────────────┐
-          ▼              ▼              ▼
-   ┌─────────────┐ ┌─────────┐ ┌─────────────┐
-   │ intent-     │ │ domain  │ │ dsl-bridge  │
-   │ parser      │ │ schema  │ │ (V3 only)   │
-   │             │ │ loader  │ │             │
-   └──────┬──────┘ └────┬────┘ └──────┬──────┘
-          │              │             │
-          ▼              ▼             │
-   ┌──────────────────────────┐       │
-   │   schema-normalizer      │       │
-   │   (base or domain)       │       │
-   └──────────┬───────────────┘       │
-              │                        │
-     ┌────────┼────────┐              │
-     ▼        ▼        ▼              │
-  ┌──────┐ ┌──────┐ ┌──────┐         │
-  │struct│ │key-  │ │value-│         │
-  │ured │ │short-│ │encod-│         │
-  │ only │ │ener  │ │er    │         │
-  └──┬───┘ └──┬───┘ └──┬───┘         │
-     │        │        │              │
-     └────────┼────────┘              │
-              │                        │
-              ▼                        ▼
-   ┌──────────────────────────────────────┐
-   │         output-formatter             │
-   │   --out prompt|report|diff|all       │
-   │         (uses token-estimator)       │
-   └──────────────────┬───────────────────┘
-                      │
-                      ▼
-   ┌──────────────────────────────────────┐
-   │           COMPRESSED OUTPUT          │
-   │      (ready for LLM consumption)     │
-   └──────────────────────────────────────┘
+```text
+user prompt
+  -> mode selection (/marlin swift|sharp|strike|sonar)
+  -> root SKILL.md instructions
+  -> schema/key-map guided transformation
+  -> compressed JSON or DSL output
 ```
 
-## Pipeline per mode
+Marlin currently relies on the host agent or benchmark model to perform the
+compression described in `SKILL.md`. A deterministic offline compressor is a V2
+roadmap item.
 
-### Structured pipeline
-```
-input → intent-parser → schema-normalizer(base) → output-formatter
-```
+## Mode Pipelines
 
-### Compact pipeline
-```
-input → intent-parser → schema-normalizer(base) → key-shortener(base-keymap) → output-formatter
-```
-
-### Dense pipeline
-```
-input → intent-parser → schema-normalizer(base) → key-shortener(base-keymap) → value-encoder → output-formatter
+```text
+swift  -> extract intent -> normalize to base schema
+sharp  -> swift -> apply base key map -> minify JSON -> drop nulls
+strike -> sharp -> abbreviate values -> collapse arrays where useful
+sonar  -> apply selected domain schema -> apply selected domain key map
 ```
 
-### Domain pipeline
-```
-input → intent-parser(domain-hint) → schema-normalizer(domain-schema) → key-shortener(domain-keymap) → output-formatter
-```
+## Schemas
 
-### V3 DSL bridge
-```
-input(DSL) → dsl-bridge(parse) → external-json → output-formatter
-input(JSON) → dsl-bridge(serialize) → internal-DSL → output-formatter
-```
+Schemas define the intended data contracts:
 
-## Skill dependency graph
+| Schema | Path | Used by |
+|---|---|---|
+| Base prompt | `schemas/v1/base.schema.json` | swift, sharp, strike |
+| Web API | `schemas/v1/web-api.schema.json` | sonar `--schema web-api` |
+| Data pipeline | `schemas/v1/data-pipeline.schema.json` | sonar `--schema data-pipeline` |
+| Agent task | `schemas/v1/agent-task.schema.json` | sonar `--schema agent-task` |
+| V3 external JSON | `schemas/v3/external-json.schema.json` | short-key JSON |
+| V3 internal DSL | `schemas/v3/internal-dsl.schema.json` | DSL storage/transport |
 
-```
-marlin-structured ──→ intent-parser ──→ schema-normalizer ──→ output-formatter
-                                                                    │
-marlin-compact ────→ intent-parser ──→ schema-normalizer ──→ key-shortener ──→ output-formatter
-                                                                                      │
-marlin-dense ──────→ intent-parser ──→ schema-normalizer ──→ key-shortener ──→ value-encoder ──→ output-formatter
-                                                                                                        │
-marlin-domain ─────→ intent-parser ──→ schema-normalizer ──→ key-shortener ──→ output-formatter
-                          │                    │                    │
-                     (domain hint)      (domain schema)      (domain keymap)
+## Key Maps
 
-dsl-bridge ────────→ (standalone, bidirectional conversion)
+Key maps are JSON contracts for compact field names:
 
-output-formatter ──→ token-estimator (for report/diff modes)
-```
+- `schemas/key-maps/base-keymap.json`: shared short keys.
+- `schemas/key-maps/web-api-keymap.json`: web API fields.
+- `schemas/key-maps/data-pipeline-keymap.json`: data pipeline fields.
+- `schemas/key-maps/agent-task-keymap.json`: agent task fields.
 
-## Schema anchoring
+The skill should only use abbreviations present in these maps. Unknown fields
+should remain readable unless a future key map defines them.
 
-Every stage of the pipeline produces output that conforms to a JSON Schema:
+## Benchmark Harness
 
-| Pipeline stage | Schema |
-|---------------|--------|
-| After intent-parser | Partial `base.schema.json` (nulls allowed) |
-| After schema-normalizer | Full `base.schema.json` or domain schema |
-| After key-shortener | `external-json.schema.json` (short keys) |
-| After value-encoder | `external-json.schema.json` (short keys + abbreviated values) |
-| V3 DSL string | `internal-dsl.schema.json` (pattern-validated string) |
+`benchmarks/run.py` exercises the root `SKILL.md` through OpenRouter's
+chat-completions API. It accepts an API key and model from CLI flags or
+environment variables, runs the benchmark prompt corpus across Marlin modes,
+and writes a JSON result file.
 
-## Key maps as contracts
+The harness records:
 
-Key maps are JSON files that define the mapping between verbose and abbreviated keys:
+- original heuristic token count
+- compressed heuristic token count
+- absolute token savings
+- percent savings
+- mode and prompt source
+- estimated compression-system overhead from the injected `SKILL.md`
+- provider-reported token usage when OpenRouter returns it
 
-- `base-keymap.json` — used by compact and dense modes
-- `web-api-keymap.json` — extends base for web API domain
-- `data-pipeline-keymap.json` — extends base for data pipeline domain
-- `agent-task-keymap.json` — extends base for agent task domain
-
-**Rules:**
-- Maps are additive — domain maps include all base mappings plus domain-specific ones
-- On conflict, domain map wins
-- Keys not in any map pass through unchanged
-- Skills never invent abbreviations — only map-defined abbreviations are used
-
-## Output formatting
-
-The output-formatter is decoupled from compression logic. It receives:
-1. The compressed object (from any mode)
-2. The original prompt text
-3. The user's `--out` flag
-
-It then calls token-estimator for counts and formats the result. This separation means compression skills never need to know about output presentation.
+The heuristic counter is useful for quick comparisons, but model-specific
+tokenizer support is still needed for claim-grade measurements.

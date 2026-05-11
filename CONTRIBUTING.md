@@ -1,79 +1,89 @@
 # Contributing to Marlin
 
-Welcome! Marlin thrives on community contributions. Whether you're building a new compression skill, fixing a schema bug, improving documentation, or adding benchmark data — every contribution makes Marlin sharper. You don't need to be an expert in prompt engineering or LLMs to help. If you use AI tools and have ideas about how prompts can be structured better, you belong here.
+Welcome. Marlin is a single-skill input prompt optimizer. Contributions should
+make the root skill clearer, add useful schemas/key maps, improve examples, or
+strengthen benchmark evidence.
 
-## What makes a good skill contribution
+## What Makes A Good Contribution
 
-A strong skill contribution includes:
+A strong contribution includes:
 
-1. **A complete `SKILL.md`** with all required frontmatter fields filled (see below)
-2. **A corresponding test file** at `tests/skill-tests/{skill-name}.test.json` with at least 3 test cases
-3. **At least 2 realistic examples** showing input → output transformation (no lorem ipsum)
-4. **Passing validation** — run `python tools/validate-skills.py` before submitting
-5. **Clear documentation** — the skill body must explain what the skill does, when to use it, when not to use it, and how it chains with other skills
+1. A focused update to root `SKILL.md` or the supporting schema/docs files.
+2. Matching examples when behavior changes.
+3. Tests for benchmark harness changes.
+4. Benchmark results when changing token-savings claims.
+5. Clear notes about methodology and limitations.
 
-## Contribution types
+## Contribution Types
 
 | Type | Branch prefix | Description |
-|------|--------------|-------------|
-| New skill | `skill/skill-name` | A new compression, parsing, encoding, or utility skill |
-| New schema | `schema/schema-name` | A new domain schema (JSON Schema draft-07) |
-| New domain keymap | `keymap/domain-name` | A new key abbreviation map for a specific domain |
-| Bug fix | `fix/description` | Fix to an existing skill, schema, tool, or workflow |
-| Benchmark | `bench/description` | New benchmark data, improved test prompts, or methodology improvements |
-| Documentation | `docs/topic` | Documentation improvements, guides, or corrections |
+|---|---|---|
+| Skill behavior | `skill/description` | Updates to root `SKILL.md` |
+| New schema | `schema/domain-name` | New domain schema and key map |
+| Benchmark | `bench/description` | Prompt corpus, runner, or methodology changes |
+| Documentation | `docs/topic` | Docs, examples, or install guidance |
+| Bug fix | `fix/description` | Corrections to behavior, docs, or tooling |
 
-## How to submit
+## Local Validation
 
-1. **Fork** the repository
-2. **Create a branch** using the naming convention above
-3. **Make your changes** — follow all conventions described in this guide
-4. **Run validation locally:** `python tools/validate-skills.py`
-5. **Regenerate the catalog:** `python tools/generate-catalog.py`
-6. **Open a Pull Request** against `main`
-7. **Fill out the PR template** completely — CI must pass before review
+Run unit tests:
 
-## SKILL.md requirements
+```bash
+python -m unittest discover -s tests
+```
 
-Every SKILL.md must include this frontmatter with valid values:
+Run the OpenRouter benchmark when changing claims:
 
-| Field | Required | Allowed values |
-|-------|----------|----------------|
-| `name` | Yes | Must match folder name exactly (kebab-case) |
-| `version` | Yes | Semantic version (e.g., `1.0.0`) |
-| `author` | Yes | GitHub username |
-| `project` | Yes | `marlin` |
-| `phase` | Yes | `v1`, `v3` |
-| `category` | Yes | `compression`, `parsing`, `schema`, `encoding`, `formatting`, `estimation`, `bridge` |
-| `tags` | Yes | Array of strings |
-| `input_format` | Yes | `natural-language`, `json`, `compact-json`, `dsl` |
-| `output_format` | Yes | `structured-json`, `compact-json`, `dense-json`, `dsl`, `report`, `diff` |
-| `token_impact` | Yes | `high`, `medium`, `low`, `none` |
-| `stability` | Yes | `stable`, `experimental` |
-| `trigger` | Yes | Command string or `internal` |
+```bash
+export OPENROUTER_API_KEY="sk-or-..."
+python benchmarks/run.py --model "openai/gpt-4o-mini"
+```
 
-### Required body sections
+You can also pass the key directly:
 
-- **Description** — what the skill does
-- **When to trigger** — exact conditions for activation
-- **Do NOT trigger when** — exclusion conditions
-- **Steps** — numbered pipeline steps
-- **Examples** — at least 2 complete input/output pairs
-- **Related Skills** — which skills this chains with
+```bash
+python benchmarks/run.py --api-key "sk-or-..." --model "openai/gpt-4o-mini"
+```
 
-## What not to submit
+Avoid committing API keys, `.env` files, or private benchmark outputs that
+contain sensitive data.
 
-- **Binary files** — no images, compiled binaries, or archives (except in `assets/` with `.gitkeep`)
-- **API keys or secrets** — never commit credentials of any kind
-- **Skills without test fixtures** — every skill needs a test file
-- **Duplicate skills** — if your skill overlaps with an existing one, explain the measurable improvement
-- **Placeholder content** — no TODOs, no "fill in later", no lorem ipsum
-- **camelCase filenames** — use kebab-case for everything
+## Skill Requirements
 
-## Code of conduct
+Marlin V1 uses one root `SKILL.md`. Keep it aligned with:
 
-Marlin is an inclusive, respectful project. Treat every contributor — regardless of experience level, background, or perspective — with dignity and professionalism. Constructive feedback is welcome; personal attacks, harassment, and dismissive behavior are not. We build tools that help everyone work better, and that starts with how we work together.
+- `/marlin swift`
+- `/marlin sharp`
+- `/marlin strike`
+- `/marlin sonar --schema web-api|data-pipeline|agent-task`
+- `schemas/v1/*.schema.json`
+- `schemas/key-maps/*.json`
+- `examples/`
+- `benchmarks/README.md`
+- agent rule files such as `AGENTS.md`, `GEMINI.md`, and Cursor/Windsurf/Cline
+  rules
+
+## Benchmark Claims
+
+Do not present design targets as benchmark-backed results. Published benchmark
+claims should include:
+
+- OpenRouter model id.
+- Prompt corpus.
+- Mode list.
+- Original and compressed token counts.
+- Absolute and percent savings.
+- Compression-system overhead.
+- Whether counts are heuristic or tokenizer-accurate.
+
+## What Not To Submit
+
+- API keys or secrets.
+- Placeholder examples.
+- Token-savings claims without results.
+- New abbreviations that are not represented in key maps.
+- Unrelated refactors bundled with benchmark or skill changes.
 
 ## Credits
 
-All contributors are credited in [CHANGELOG.md](CHANGELOG.md). If your contribution is merged, your GitHub username will be listed alongside the change. If you prefer anonymity, let us know in your PR.
+Contributors are credited in release notes when their changes are merged.

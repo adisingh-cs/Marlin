@@ -1,6 +1,6 @@
 {
   "status": "pending",
-  "note": "Benchmark run not yet executed. Run benchmarks/run.py with ANTHROPIC_API_KEY to generate results.",
+  "note": "Benchmark run not yet executed. Run benchmarks/run.py with OPENROUTER_API_KEY or --api-key to generate results.",
   "generated_at": null,
   "results": []
 }

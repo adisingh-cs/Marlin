@@ -1,10 +1,12 @@
 # Key Maps
 
-Key maps define the mapping between verbose JSON key names and their abbreviated equivalents. They are the core data contract for compact, dense, and domain modes.
+Key maps define the mapping between verbose JSON key names and their
+abbreviated equivalents. They are the core data contract for sharp, strike, and
+sonar modes.
 
 ## How key maps work
 
-1. The key-shortener skill loads a key map JSON file
+1. The root `SKILL.md` mode instructions select the relevant key map
 2. It walks every key in the input JSON object
 3. If a key exists in the map, it is replaced with the short version
 4. If a key is NOT in the map, it passes through unchanged
@@ -12,7 +14,7 @@ Key maps define the mapping between verbose JSON key names and their abbreviated
 
 ## Base key map
 
-Used by compact and dense modes. Located at `schemas/key-maps/base-keymap.json`.
+Used by sharp and strike modes. Located at `schemas/key-maps/base-keymap.json`.
 
 | Full key | Short key | Used by |
 |----------|-----------|---------|
@@ -116,5 +118,5 @@ To add a new domain:
 1. Create `schemas/key-maps/{domain}-keymap.json`
 2. Include all base map entries plus your domain-specific additions
 3. Create a corresponding domain schema at `schemas/v1/{domain}.schema.json`
-4. Add support in the `marlin-domain` skill
+4. Add support in the sonar section of root `SKILL.md`
 5. Add test fixtures covering the new domain

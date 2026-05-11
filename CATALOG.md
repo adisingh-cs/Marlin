@@ -10,7 +10,7 @@
 
 ## Modes Reference
 
-| Mode | Command | Token Cut | Mechanism |
+| Mode | Command | Target Token Cut | Mechanism |
 |---|---|---|---|
 | Swift | `/marlin swift` | ~20–35% | Schema normalization |
 | Sharp | `/marlin sharp` | ~35–50% | Key shortening + minification |

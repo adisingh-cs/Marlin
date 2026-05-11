@@ -7,10 +7,10 @@ says back. Use /marlin followed by a mode name before any prompt.
 
 ## Modes
 
-- `/marlin swift` — normalize and structure (~20-35% token cut)
-- `/marlin sharp` — compact JSON + short keys (~35-50% token cut)
-- `/marlin strike` — maximum compression (~50-70% token cut)
-- `/marlin sonar --schema web-api|data-pipeline|agent-task` — domain schema (~40-65% token cut)
+- `/marlin swift` — normalize and structure (target: ~20-35% token cut)
+- `/marlin sharp` — compact JSON + short keys (target: ~35-50% token cut)
+- `/marlin strike` — maximum compression (target: ~50-70% token cut)
+- `/marlin sonar --schema web-api|data-pipeline|agent-task` — domain schema (target: ~40-65% token cut)
 
 ## Output flags (append to any command)
 
