@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-05-11
+
+### Added
+- `install.sh` — one-liner for macOS/Linux/WSL, auto-detects 15+ agents
+- `install.ps1` — one-liner for Windows PowerShell
+- `gemini-extension.json` + `GEMINI.md` — native Gemini CLI extension
+- `CLAUDE.md` — auto-loaded by Claude Code at session start
+- `AGENTS.md` — universal agent instructions (Codex, opencode, etc.)
+- `.cursor/rules/marlin.mdc` — Cursor rule file
+- `.windsurf/rules/marlin.md` — Windsurf rule file
+- `.clinerules/marlin.md` — Cline rule file
+- `.github/copilot-instructions.md` — Copilot instructions
+- Claude.ai manual install documented in README
+
+### Distribution
+Marlin now installs natively on: Claude Code, Gemini CLI, Cursor,
+Windsurf, Cline, GitHub Copilot, Codex, Antigravity, opencode,
+Roo, Kiro, and 30+ others via npx skills.
+
 ## [1.1.0] - 2025-05-10
 
 ### Changed
